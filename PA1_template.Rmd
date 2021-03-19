@@ -1,8 +1,9 @@
 ---
-title: "Reproducible Research: Peer Assessment 1"
-output: 
+title: 'Reproducible Research: Peer Assessment 1'
+output:
   html_document:
-    keep_md: true
+    keep_md: yes
+  pdf_document: default
 ---
 
 
@@ -37,14 +38,47 @@ library(dplyr)
 daily_steps <- summarise(group_by(act, date), total = sum(steps))
 ```
 
-I create a histogram of the total number of steps taken each day. 
+I create a histogram of the total number of steps taken each day.
+
+```{r histogram, echo=TRUE}
+hist(daily_steps$total, main="Steps per Day", xlab="Number of steps", col = "blue")
+```
+
+I calculate the mean and median of the total number of steps taken per day.
+
+```{r distribution, echo=TRUE}
+mean(daily_steps$total, na.rm = TRUE)
+median(daily_steps$total, na.rm = TRUE)
+```
 
 ## What is the average daily activity pattern?
 
+I process the data and take the average of steps taken in each 5-minute interval across all days.
+```{r intervals, echo=TRUE}
+by_intervals <- aggregate(steps ~ interval, act, mean)
+```
 
+I construct a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis).
+
+```{r timeseries, echo=TRUE}
+
+plot(by_intervals$interval, by_intervals$steps, type='l', main="Daily Average of Activity by 5-Min Intervals", xlab="5-Min Interval", ylab="Average number of steps", col="red")
+```
+
+I find out the 5 minute interval with the highest daily average.
+
+```{r maxinterval, echo=TRUE}
+which.max(by_intervals$steps)
+by_intervals[104, ]
+```
 
 ## Imputing missing values
 
+I reread the original data and store it in actNA. I calculate the number of missing values.
 
+```{r missing, echo=TRUE}
+actNA <- read.csv("activity.csv")
+sum(is.na(actNA))
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
