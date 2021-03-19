@@ -8,7 +8,20 @@ output:
 
 ## Loading and preprocessing the data
 
+I unzip the file into the working directory. I read the data in and assign it as "act".
 
+```{r gettingthedata, echo=TRUE}
+ unzip("activity.zip")
+ act <- read.csv("activity.csv")
+```
+
+I summarize the data to check for NA values and clean them.
+
+```{r summary, echo=TRUE}
+summary(act)
+act <- na.omit(act)
+summary(act)
+```
 
 ## What is mean total number of steps taken per day?
 
