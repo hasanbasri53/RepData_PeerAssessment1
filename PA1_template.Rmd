@@ -24,8 +24,20 @@ summary(act)
 ```
 
 ## What is mean total number of steps taken per day?
+There are 53 unique dates on which data was recorded.
 
+```{r, echo=TRUE}
+length(unique(act$date))
+```
 
+I load the package dplyr in order to process the data.Then I group the data under dates and calculate the total number of steps taken per day, storing the results in "daily_steps".
+
+```{r steps, echo=TRUE}
+library(dplyr)
+daily_steps <- summarise(group_by(act, date), total = sum(steps))
+```
+
+I create a histogram of the total number of steps taken each day. 
 
 ## What is the average daily activity pattern?
 
